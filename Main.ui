@@ -14,7 +14,7 @@
    <string>이미지 처리 시스템</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushButton_1">
     <property name="geometry">
      <rect>
       <x>53</x>

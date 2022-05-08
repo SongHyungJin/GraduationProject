@@ -1,7 +1,8 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5 import uic #, QtCore
+from PyQt5.QtCore import *
+from PyQt5 import uic
 from JPautosort import AutosortWindow
 from JPfilter import FilterWindow
 from JPlearning import LearningWindow
@@ -17,10 +18,10 @@ class MainWindow(QMainWindow, QWidget, form_main):
 
     def initUI(self):
         self.setupUi(self)
-        self.####버튼 자동 분류####.clicked.connect(self.button_1)
-        self.####버튼 중복 처리####.clicked.connect(self.button_2)
-        self.####버튼 추가 학습####.clicked.connect(self.button_3)
-        self.####버튼 테스트####.clicked.connect(self.button_4)
+        #self.pushButton_1.clicked.connect(self.button_1)
+        self.pushButton_2.clicked.connect(self.button_2)
+        #self.pushButton_3.clicked.connect(self.button_3)
+        #self.pushButton_4.clicked.connect(self.button_4)
 
     def button_1(self):
         self.hide()
