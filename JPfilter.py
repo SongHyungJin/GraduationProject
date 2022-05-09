@@ -22,10 +22,15 @@ form_filter = uic.loadUiType("Second.ui")[0]
 ##################
 class FilterWindow(QDialog, QWidget, form_filter):
 
-    OpResize = [100, 250, 500]
-    IndexResize = 0
-    OpRate = [0.85, 0.90, 0.95]
-    IndexRate = 0
+    # 이미지 축소율
+    listResize = [100, 250, 500]
+    idxResize = 0
+
+    # 코사인 유사도 일치율
+    listRate = [0.85, 0.90, 0.95]
+    idxRate = 0
+
+    currentFolder = ""
 
     def __init__(self):
         super(FilterWindow, self).__init__()
@@ -34,25 +39,39 @@ class FilterWindow(QDialog, QWidget, form_filter):
 
     def initUI(self):
         self.setupUi(self)
-        self.BtnOpenFolder.clicked.connect(self.open_Folder)
-        #self.BtnSelectAll.clicked.connect(self.)
-        #self.BtnExclude.clicked.connect(self.)
-        self.BtnMain.clicked.connect(self.R2Main)
-        #self.buttonBox.clicked.connect(self.)
-        #self.OpResize_0.toggled.connect(self.)
-        #self.OpResize_1.toggled.connect(self.)
-        #self.OpResize_2.toggled.connect(self.)
-        #self.OpRate_0.toggled.connect(self.)
-        #self.OpRate_1.toggled.connect(self.)
-        #self.OpRate_2.toggled.connect(self.)
 
-    # 프로그램 메인 화면으로 돌아가기
+        # 폴더 열기
+        self.BtnOpenFolder.clicked.connect(self.open_Folder)
+
+        # 전체 선택/해제, 선택 파일 제외
+        # # #self.BtnSelectAll.clicked.connect(self.)
+        # # #self.BtnExclude.clicked.connect(self.)
+
+        # 메인화면으로 돌아가기
+        self.BtnMain.clicked.connect(self.R2Main)
+
+        # 확인/취소
+        #self.buttonBox.clicked.connect(self.)
+
+        # 이미지 축소율 변경
+        self.OpResize_0.toggled.connect(self.setOpResize(self, 0))
+        self.OpResize_1.toggled.connect(self.setOpResize(self, 1))
+        self.OpResize_2.toggled.connect(self.setOpResize(self, 2))
+
+        # 코사인 유사도 일치율 기준 변경
+        self.OpRate_0.toggled.connect(self.setOpRate(self, 0))
+        self.OpRate_1.toggled.connect(self.setOpRate(self, 1))
+        self.OpRate_2.toggled.connect(self.setOpRate(self, 2))
+
+
     def R2Main(self):
         self.close()
 
-    #def optionResizing(self):
-        #........
+    def setOpResize(self, n):
+        self.idxResize = n
 
+    def setOpRate(self, n):
+        self.idxRate = n
 
     #######################################
     ########################
@@ -68,44 +87,44 @@ class FilterWindow(QDialog, QWidget, form_filter):
         folder = QFileDialog.getExistingDirectory(self, "폴더 열기", path)
         if folder:
             self.FolderPath.setText(folder)
-        return folder
+            notYETREALNAME_IMAGES = self.load_Image(folder)###############################################################
 
     # 이미지 로드
-    # jpeg, bmp 추가해야함
-    def load_Image(folder):
+    def load_Image(self, folder):
         files = os.listdir(folder)
         images = []
         for file in files:
-            if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".webp"):
+            if file.endswith(".bmp") or file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png") or file.endswith(".webp"):
                 images.append(file)
         return images
 
+    # 중복 이미지 격리
+    #def filter_Image(self, vec_images, folder):
+        #for vec_image in vec_images:
+            # O(n^2)으로 get_cos_sim
+            # 일정 수치(UI에서 RadioBtn으로 고른 수치) 이상일 경우 격리
+            # 경로 하위 새 폴더, 파일 이동, 리스트에서 pop
+
     # 이미지 벡터화
-    def vec_Image(images):
+    def vec_Image(self, images):
         for image in images:
             image.flatten()
         return images
 
     # 이미지 리사이징
-    def resize_Image(images, optionHowMuch):
+    def resize_Image(self, images):
+        new_size = self.listResize[self.idxResize]
         new_images = []
         for image in images:
-            new_image = cv2.resize(image, (100, 100)) # <- 100, 100 대신 옵션으로 그 때 그 때 지정 가능하게
+            new_image = cv2.resize(image, (new_size, new_size)) # <- 100, 100 대신 옵션으로 그 때 그 때 지정 가능하게
             new_images.append(new_image)
         return new_images
 
     # 코사인 유사도 측정
-    def get_Cos_Sim(vec1, vec2):
+    def get_Cos_Sim(self, vec1, vec2):
         return dot(vec1, vec2)/(norm(a)*norm(b))
 
     # 이미지 출력 전 해당 이미지들 BGR->RGB 변환
-    #def show_Redundancy(image):
+    #def show_Redundancy(self, image):
         #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #......
-
-    # 중복 이미지 격리
-    #def filter_Image(vec_images, folder):
-        #for vec_image in vec_images:
-            # O(n^2)으로 get_cos_sim
-            # 일정 수치(UI에서 RadioBtn으로 고른 수치) 이상일 경우 격리
-            # 경로 하위 새 폴더, 파일 이동, 리스트에서 pop
