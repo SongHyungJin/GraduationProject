@@ -22,18 +22,18 @@ form_filter = uic.loadUiType("Second.ui")[0]
 ##################
 class FilterWindow(QDialog, QWidget, form_filter):
 
-    # 이미지 축소율
-    listResize = [100, 250, 500]
-    idxResize = 0
-
-    # 코사인 유사도 일치율
-    listRate = [0.85, 0.90, 0.95]
-    idxRate = 0
-
-    currentFolder = ""
-
     def __init__(self):
         super(FilterWindow, self).__init__()
+        # 이미지 축소율
+        self.listResize = [100, 250, 500]
+        self.idxResize = 0
+
+        # 코사인 유사도 일치율
+        self.listRate = [0.85, 0.90, 0.95]
+        self.idxRate = 0
+
+        self.currentFolder = ""
+
         self.initUI()
         self.show()
 
@@ -54,14 +54,16 @@ class FilterWindow(QDialog, QWidget, form_filter):
         #self.buttonBox.clicked.connect(self.)
 
         # 이미지 축소율 변경
-        self.OpResize_0.toggled.connect(self.setOpResize(self, 0))
-        self.OpResize_1.toggled.connect(self.setOpResize(self, 1))
-        self.OpResize_2.toggled.connect(self.setOpResize(self, 2))
+        self.OpResize_0.toggled.connect(lambda: self.setOpResize(0))
+        self.OpResize_1.toggled.connect(lambda: self.setOpResize(1))
+        self.OpResize_2.toggled.connect(lambda: self.setOpResize(2))
 
         # 코사인 유사도 일치율 기준 변경
-        self.OpRate_0.toggled.connect(self.setOpRate(self, 0))
-        self.OpRate_1.toggled.connect(self.setOpRate(self, 1))
-        self.OpRate_2.toggled.connect(self.setOpRate(self, 2))
+        self.OpRate_0.toggled.connect(lambda: self.setOpRate(0))
+        self.OpRate_1.toggled.connect(lambda: self.setOpRate(1))
+        self.OpRate_2.toggled.connect(lambda: self.setOpRate(2))
+        # 라디오버튼 초기값 설정법 #######
+
 
 
     def R2Main(self):
@@ -81,22 +83,40 @@ class FilterWindow(QDialog, QWidget, form_filter):
     # getExistingDirectory도 비슷한 모양일 듯 참고 : newbie-developer.tistory.com/122
     # 폴더 선택 안 했을 때 처리용으로 if문 넣는 듯 함. 잘 몰?루
 
-    ######################################
+    #####################################
+
+    # 폴더 열기
     def open_Folder(self):
         path = "C:/Users/{}/Pictures".format(os.getlogin())
         folder = QFileDialog.getExistingDirectory(self, "폴더 열기", path)
         if folder:
             self.FolderPath.setText(folder)
-            notYETREALNAME_IMAGES = self.load_Image(folder)###############################################################
-
+            notYETREALNAME_IMAGES = self.load_Image(folder)### ### ### ### ### ###
+        self.show_Image(notYETREALNAME_IMAGES)
+        
     # 이미지 로드
     def load_Image(self, folder):
         files = os.listdir(folder)
         images = []
         for file in files:
-            if file.endswith(".bmp") or file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png") or file.endswith(".webp"):
+            if file.endswith(".bmp") or file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):# or file.endswith(".webp"):
                 images.append(file)
         return images
+
+    # 이미지 출력
+    def show_Image(self, images):
+        #self.qPixmapFileVar = QPixmap()
+        #self.qPixmapFileVar.load()
+        #self.qPixmapFileVar = self.qPixmapFileVar.scaledToWidth(100)
+        #self.label_pic.setPixmap(self.qPixmapFileVar)
+        for image in images:
+            pixmap = QPixmap(image)
+            self.label_pic.setPixmap(pixmap)
+
+    # 이미지 출력 전 해당 이미지들 BGR->RGB 변환
+    #def show_Redundancy(self, image):
+        #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #......
 
     # 중복 이미지 격리
     #def filter_Image(self, vec_images, folder):
@@ -123,8 +143,3 @@ class FilterWindow(QDialog, QWidget, form_filter):
     # 코사인 유사도 측정
     def get_Cos_Sim(self, vec1, vec2):
         return dot(vec1, vec2)/(norm(a)*norm(b))
-
-    # 이미지 출력 전 해당 이미지들 BGR->RGB 변환
-    #def show_Redundancy(self, image):
-        #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        #......

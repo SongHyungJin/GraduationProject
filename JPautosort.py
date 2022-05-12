@@ -1,18 +1,16 @@
+
 # 자동 분류 기능 #
+
+import os
 import sys
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QCheckBox, QLabel, QLineEdit, QProgressBar
+from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QBasicTimer
+from PyQt5.QtCore import *
 from PyQt5 import uic
-from JPautosort import AutosortWindow
-from JPfilter import FilterWindow
-from JPlearning import LearningWindow
-from JPtest import TestWindow
 
 form_categorize = uic.loadUiType("Autosort_window.ui")[0]
 
-
-class AutosortWindow(QAutosortWindow, QWidget, QCheckbox):
+class AutosortWindow(QDialog, QWidget, form_categorize):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -28,7 +26,7 @@ class AutosortWindow(QAutosortWindow, QWidget, QCheckbox):
         self.checkBox_3.stateChanged.connecet(self.filecopy)
 
         # 연결되는거 전체
-        self.lineEdit.  # lineEdit에 선택된 폴더명 입력, 구글링해서 추가로 찾아봄
+        # 임시 #self.lineEdit.  # lineEdit에 선택된 폴더명 입력, 구글링해서 추가로 찾아봄
         self.pushButton.clicked.connect() # 폴더 선택 창으로 이동
         self.pushButton_2.clicked.connect(self.label_pic)
         self.pushButton_3.clicked.connect(self.label_pic)
@@ -48,8 +46,8 @@ class AutosortWindow(QAutosortWindow, QWidget, QCheckbox):
 
         def run(self, n):
             for i in range(n):
-            time.sleep(0.01)
-            self.progressBar.setValue(i+1) # 진행바는 따로 레이어 만들어서 빼도 될듯?
+                time.sleep(0.01)
+                self.progressBar.setValue(i+1) # 진행바는 따로 레이어 만들어서 빼도 될듯?
 
     def filemove(self):
         print("")
@@ -69,9 +67,4 @@ class AutosortWindow(QAutosortWindow, QWidget, QCheckbox):
         self.subwin2.exec_()
         self.show()
 
-    def labelpic(self):  # 사진 표시될거 만들어야함.
-
-if __name__ == '__Autosort_window__':
-    app = QApplication(sys.argv)
-    win = AutosortWindow()
-    sys.exit(app.exec_())
+    # def labelpic(self):  # 사진 표시될거 만들어야함.
