@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
-from PIL import Image
+import cv2
 from numpy import dot
 from numpy.linalg import norm
 import numpy as np
@@ -60,9 +60,18 @@ class FilterWindow(QDialog, QWidget, form_filter):
 
     def setOpResize(self, n):
         self.idxResize = n
+        #temp_str = 'resize' + str(self.idxResize)
+        #self.label_4.setText(temp_str)
 
     def setOpRate(self, n):
         self.idxRate = n
+        #temp_str = 'rate' + str(self.idxRate)
+        #self.label_4.setText(temp_str)
+
+    ############
+    # getExistingDirectory도 비슷한 모양일 듯 참고 : newbie-developer.tistory.com/122
+    # 폴더 선택 안 했을 때 처리용으로 if문 넣는 듯 함. 잘 몰?루
+    ############
 
     # 폴더 열기
     def open_Folder(self):
@@ -81,12 +90,20 @@ class FilterWindow(QDialog, QWidget, form_filter):
         #for image in images:
             #pixmap = QPixmap(image)
             #self.label_pic.setPixmap(pixmap)
+        #이미지 경로 label에 출력
+
+    # 이미지 출력 전 해당 이미지들 BGR->RGB 변환
+    #def show_Redundancy(self, image):
+        #image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #......
 
     # 중복 이미지 격리
     def filter_Image(self):
         # 이미지 로드
         folder = self.currentFolder
-        vec_imgs = self.load_File(folder)
+        images = self.load_Image(folder)
+        # 작업 전 이미지 처리
+        vec_imgs = self.adjust_Image(images)
 
         # 이미지 벡터들에 대해 코사인 유사도 측정 후 처리
         # loc:유사도를 측정할 다른 한 쪽의 파일의 vec_images 내 위치
@@ -115,28 +132,27 @@ class FilterWindow(QDialog, QWidget, form_filter):
         # 격리된 이미지 show OR 완료 메시지
         self.fin_filter()
 
-    # 파일 로드 & 전처리
-    def load_File(self, folder):
-        filenames = os.listdir(folder)
-        new_size = self.listResize[self.idxResize]  # 이미지 리사이징 옵션
-        vec_imgs = []                               # 이미지 로딩 & 전처리 후 리턴할 결과물
-        
-        for filename in filenames:  # 아래 확장자에 해당하는 파일만 열기-PIL로 바꾸고 변동 가능성**
-            if filename.endswith(".bmp") or filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):# or filename.endswith(".webp"):
-                with open(folder + '/' + filename, "rb") as file:
-                    img = Image.open(file)                  # 이미지 파일 열기
-                    img = img.convert("RGB")
-                    img = img.resize((new_size, new_size))  # 이미지 사이즈 조정
-                    vec_img = self.vector_Image(img)        # 이미지 벡터화
-                    vec_img = vec_img.astype("float") / 256
-                    vec_imgs.append(vec_img)
-        return vec_imgs
+    # 이미지 로드
+    def load_Image(self, folder):
+        files = os.listdir(folder)
+        images = []
+        for file in files:
+            if file.endswith(".bmp") or file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):# or file.endswith(".webp"):
+                image = cv2.imread(folder+'/'+file, cv2.IMREAD_COLOR)
+                images.append(image)
+        return images
 
-    # 이미지 벡터화
-    def vector_Image(self, img):
-        vec = np.asarray(img)   # 배열 형태로 전환
-        vec = vec.ravel()       # 3차원 -> 1차원 배열로 변환
-        return vec
+    # 이미지 크기 조정 & 벡터화 & 255로 나눔
+    def adjust_Image(self, images):
+        new_size = self.listResize[self.idxResize]
+        new_images = []
+        for image in images:
+            new_image = cv2.resize(image, (new_size, new_size), interpolation=cv2.INTER_AREA)
+            new_image = new_image.ravel()
+            for i in range(len(new_image)):
+                new_image[i] = new_image[i] / 255
+            new_images.append(new_image)
+        return new_images
 
     # 코사인 유사도 측정
     def get_Cos_Sim(self, vec1, vec2):
