@@ -18,10 +18,10 @@ class MainWindow(QMainWindow, QWidget, form_main):
 
     def initUI(self):
         self.setupUi(self)
-        #self.pushButton_1.clicked.connect(self.button_1)
+        self.pushButton_1.clicked.connect(self.button_1)
         self.pushButton_2.clicked.connect(self.button_2)
-        #self.pushButton_3.clicked.connect(self.button_3)
-        #self.pushButton_4.clicked.connect(self.button_4)
+        self.pushButton_3.clicked.connect(self.button_3)
+        self.pushButton_4.clicked.connect(self.button_4)
 
     def button_1(self):
         self.hide()
