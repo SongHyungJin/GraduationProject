@@ -78,16 +78,6 @@
     <string>캐릭터 우선순위 설정(이동 선택시에만 적용)</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>830</x>
-     <y>340</y>
-     <width>261</width>
-     <height>191</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="buttonOK">
    <property name="geometry">
     <rect>
@@ -112,16 +102,6 @@
    </property>
    <property name="text">
     <string>취소</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>830</x>
-     <y>590</y>
-     <width>261</width>
-     <height>192</height>
-    </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="buttonUP">
@@ -184,6 +164,26 @@
    </property>
    <property name="text">
     <string>파일 이동 설정</string>
+   </property>
+  </widget>
+  <widget class="QTreeWidget" name="treeWidget">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>340</y>
+     <width>261</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTreeWidget" name="treeWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>590</y>
+     <width>261</width>
+     <height>192</height>
+    </rect>
    </property>
   </widget>
  </widget>
