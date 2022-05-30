@@ -25,6 +25,9 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.setupUi(self)
         self.show()
 
+        self.folder_source = ""         # 이미지 있는 폴더
+        self.folder_destination = ""    # 이미지 옮길 폴더
+
         modelName_list = []
         for dirpath, dirname, filenames in os.walk('model'):
             for file in filenames:
@@ -50,7 +53,7 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.buttonOK.clicked.connect(self.sort)
 
         self.BtnFolderSrc.clicked.connect(self.open_Folder) # 폴더 열기
-        #self.BtnFolderDest.clicked.connect(self.set_Folder)           # 결과 폴더 지정
+        self.BtnFolderDest.clicked.connect(self.set_Folder) # 결과 폴더 지정
 
 
     def initUI(self):
@@ -114,10 +117,15 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         path = "C:/Users/{}/Pictures".format(os.getlogin())
         folder = QFileDialog.getExistingDirectory(self, "폴더 열기", path)
         if folder:
-            self.FolderPath.setText(folder)
-            self.currentFolder = folder
+            self.SrcPath.setText(folder)
+            self.folder_source = folder
 
-    #def set_Folder(self):
+    def set_Folder(self):
+        path = "C:/Users/{}/Pictures".format(os.getlogin())
+        folder = QFileDialog.getExistingDirectory(self, "폴더 선택", path)
+        if folder:
+            self.DestPath.setText(folder)
+            self.folder_destination = folder
 
 
 if __name__ == '__main__':
