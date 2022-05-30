@@ -61,7 +61,7 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
 
         self.BtnFolderSrc.clicked.connect(self.open_Folder)     # 폴더 열기
         self.BtnFolderDest.clicked.connect(self.set_Folder)     # 결과 폴더 지정
-        self.moveORcopy = 0
+        self.moveORcopy = 1
         self.midCheck = 0
 
 
