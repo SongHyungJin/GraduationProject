@@ -3,68 +3,124 @@
 
 import os
 import sys
+from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
+from predict_module import do_predict
+from cutNresize import cutNresize
+import shutil
+import cv2
+from numpy import dot
+from numpy.linalg import norm
+import numpy as np
 
 form_categorize = uic.loadUiType("Autosort_window.ui")[0]
 
 class AutosortWindow(QDialog, QWidget, form_categorize):
+
     def __init__(self):
-        super().__init__()
-        self.initUI()
+        super(AutosortWindow, self).__init__()
+        self.setupUi(self)
         self.show()
+
+        modelName_list = []
+        for dirpath, dirname, filenames in os.walk('model'):
+            for file in filenames:
+                if file.endswith('.txt'):
+                    modelName_list.append(Path(file).stem)
+
+        parent = QTreeWidget.invisibleRootItem(self.treeWidget)
+        parent2 = QTreeWidget.invisibleRootItem(self.treeWidget_2)
+        self.item_base = QTreeWidgetItem()
+        self.item_userList = QTreeWidgetItem()
+        parent.addChild(self.item_base)
+        parent2.addChild(self.item_userList)
+        self.item_base.setText(0, '분류 가능 캐릭터 목록')
+        self.item_userList.setText(0, '분류 우선순위')
+        for d in modelName_list:
+            item = self.make_tree_item(d)
+            self.item_base.addChild(item)
+            self.item_base.sortChildren(0, Qt.SortOrder(0))
+        self.buttonDown.clicked.connect(self.move_item)
+        self.buttonUP.clicked.connect(self.move_item)
+        self.treeWidget.header().setVisible(False)
+        self.treeWidget_2.header().setVisible(False)
+        self.buttonOK.clicked.connect(self.sort)
+
+        self.BtnFolderSrc.clicked.connect(self.open_Folder) # 폴더 열기
+        #self.BtnFolderDest.clicked.connect(self.set_Folder)           # 결과 폴더 지정
+
 
     def initUI(self):
         self.setupUi(self)
-        self.pushButton.clicked.connect()  # 사진 폴더
 
-        # 체크박스
-        self.checkBox.stateChanged.connect(self.checkprogressbar)
-        self.checkBox_2.stateChanged.connect(self.filemove)
-        self.checkBox_3.stateChanged.connecet(self.filecopy)
 
-        # 연결되는거 전체
-        # 임시 #self.lineEdit.  # lineEdit에 선택된 폴더명 입력, 구글링해서 추가로 찾아봄
-        self.pushButton.clicked.connect() # 폴더 선택 창으로 이동
-        self.pushButton_2.clicked.connect(self.label_pic)
-        self.pushButton_3.clicked.connect(self.label_pic)
-        self.buttonOK.clicked.connect(self.buttonok)
-        self.buttonCancel.clicked.connect(self.buttoncancel)
+    def make_tree_item(cls, name: str):
+        item = QTreeWidgetItem()
+        item.setText(0, name)
+        return item
 
-        self.listWidget = QListWidget(self)
-        self.listWidget.insertItem(n, QListWidgetItem(""))  # n에는 캐릭터 수, "" 안에는 클래스로 추가 (이름 추가하는 클래스도
-        # 만들어야할듯
-        self.label_pic()  # 폴더 내의 사진이 표시될 곳
+    def move_item(self):
+        sender = self.sender()
+        if self.buttonDown == sender:
+            item = QTreeWidget.currentItem(self.treeWidget)
+            self.item_base.removeChild(item)
+            self.item_userList.addChild(item)
 
-    def checkprogressbar(self):
-        n = 500 # 선택된 사진 개수, 일단 대충 때려넣음
-        self.progressBar = QProgressBar(self)
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(n)
+        else:
+            item = QTreeWidget.currentItem(self.treeWidget_2)
+            self.item_userList.removeChild(item)
+            self.item_base.addChild(item)
+            self.item_base.sortChildren(0, Qt.SortOrder(0))
 
-        def run(self, n):
-            for i in range(n):
-                time.sleep(0.01)
-                self.progressBar.setValue(i+1) # 진행바는 따로 레이어 만들어서 빼도 될듯?
 
-    def filemove(self):
-        print("")
+    def sort(self):
+        priority = []
+        for i in range(0, self.item_userList.childCount()):
+            priority.append(self.item_userList.child(i).text(0))
 
-    def filecopy(self):
-        print("")
+        if len(priority) == 0:
+            QMessageBox.about(self, "error", "분류 대상 목록이 비어있습니다.")
+        else:
+            tmpCropDir = 'cNr_after'
+            img_path = 'cNr_before'
+            crop_list = cutNresize(img_path, tmpCropDir)
+            modelDir_list = []
+            for k in range(0, len(priority)):
+                for dirpath, dirname, filename in os.walk('model'):
+                    if priority[k] + ".txt" in filename:
+                        modelDir_list.append(dirpath)
 
-    def buttonok(self):
-        self.hide()
-        self.subwin1 = CheckCategorizing()  # 새로운 파일 추가
-        self.subwin1.exec_()
-        self.show()
+            for k in range(0, len(modelDir_list)):
+                result = do_predict(modelDir_list[k], crop_list)
+                result = set(result)
+                result = list(result)
+                path = img_path + '\\' + priority[k]
+                if not os.path.exists(path):
+                    os.mkdir(path)
+                for i in range(0, len(result)):
+                    if os.path.isfile(result[i]):
+                        shutil.move(result[i], path)
+                QMessageBox.about(self, '중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
 
-    def buttoncancel(self):
-        self.hide()
-        self.subwin2 = MainWindow()
-        self.subwin2.exec_()
-        self.show()
+            QMessageBox.about(self, '분류 완료', '분류가 전부 완료되었습니다.')
 
-    # def labelpic(self):  # 사진 표시될거 만들어야함.
+            for file in os.scandir(tmpCropDir):
+                os.remove(file.path)
+
+    def open_Folder(self):
+        path = "C:/Users/{}/Pictures".format(os.getlogin())
+        folder = QFileDialog.getExistingDirectory(self, "폴더 열기", path)
+        if folder:
+            self.FolderPath.setText(folder)
+            self.currentFolder = folder
+
+    #def set_Folder(self):
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    win = AutosortWindow()
+    sys.exit(app.exec_())
