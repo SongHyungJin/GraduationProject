@@ -229,19 +229,6 @@
     <string>복사</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>820</x>
-     <y>290</y>
-     <width>291</width>
-     <height>591</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string/>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
