@@ -23,7 +23,7 @@ def train_module(train_path, test_level, model_path):
 
     if test_level == 1:
         layer_num = 18
-        epoch_num = 2
+        epoch_num = 200
     elif test_level == 2:
         layer_num = 18
         epoch_num = 400
