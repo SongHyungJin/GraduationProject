@@ -155,7 +155,6 @@ class FilterWindow(QDialog, QWidget, form_filter):
                 img_list.append(file)
         for target in targets:
             os.replace(img_src+'/'+img_list[target], img_dest+'/'+img_list[target])
-            self.label_4.setText(img_dest+'/'+img_list[target])
 
     # 완료 알림
     def fin_filter(self):

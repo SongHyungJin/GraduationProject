@@ -6,27 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>954</width>
-    <height>613</height>
+    <width>919</width>
+    <height>339</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>추가 학습</string>
   </property>
-  <widget class="QPushButton" name="buttonMain">
-   <property name="geometry">
-    <rect>
-     <x>590</x>
-     <y>540</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>메인으로</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="SrcPath">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -36,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="BtnOpenSrc">
    <property name="geometry">
     <rect>
      <x>530</x>
@@ -49,37 +36,11 @@
     <string>폴더 열기</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>750</x>
-     <y>100</y>
-     <width>121</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>캐릭터 이름 입력</string>
-   </property>
-  </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>540</y>
-     <width>193</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>770</x>
-     <y>250</y>
+     <x>750</x>
+     <y>50</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -91,8 +52,8 @@
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
-     <x>720</x>
-     <y>290</y>
+     <x>700</x>
+     <y>90</y>
      <width>160</width>
      <height>22</height>
     </rect>
@@ -101,17 +62,128 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>540</y>
-     <width>118</width>
-     <height>23</height>
+     <x>40</x>
+     <y>30</y>
+     <width>191</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="value">
-    <number>24</number>
+   <property name="text">
+    <string>학습할 이미지 데이터 위치</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="DestPath">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>142</y>
+     <width>481</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>41</x>
+     <y>112</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>학습 데이터를 저장할 위치</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BtnOpenDest">
+   <property name="geometry">
+    <rect>
+     <x>531</x>
+     <y>142</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>폴더 열기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BtnRun">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>190</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>실행</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>220</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>캐릭터 이름을 입력하세요</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BtnNameInput">
+   <property name="geometry">
+    <rect>
+     <x>531</x>
+     <y>215</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>입력</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineNameInput">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>214</y>
+     <width>290</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LabelNameInput">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>268</y>
+     <width>351</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>270</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>현재 입력된 값 :</string>
    </property>
   </widget>
  </widget>
