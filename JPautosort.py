@@ -52,8 +52,8 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.treeWidget_2.header().setVisible(False)
         self.buttonOK.clicked.connect(self.sort)
 
-        self.BtnFolderSrc.clicked.connect(self.open_Folder) # 폴더 열기
-        self.BtnFolderDest.clicked.connect(self.set_Folder) # 결과 폴더 지정
+        self.BtnFolderSrc.clicked.connect(self.open_Folder)     # 폴더 열기
+        self.BtnFolderDest.clicked.connect(self.set_Folder)     # 결과 폴더 지정
 
 
     def initUI(self):
@@ -87,8 +87,8 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         if len(priority) == 0:
             QMessageBox.about(self, "error", "분류 대상 목록이 비어있습니다.")
         else:
-            tmpCropDir = 'cNr_after'
-            img_path = 'cNr_before'
+            tmpCropDir = self.folder_destination + '/' + 'tmpCrop'
+            img_path = self.folder_source
             crop_list = cutNresize(img_path, tmpCropDir)
             modelDir_list = []
             for k in range(0, len(priority)):
@@ -100,7 +100,7 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
                 result = do_predict(modelDir_list[k], crop_list)
                 result = set(result)
                 result = list(result)
-                path = img_path + '\\' + priority[k]
+                path = self.folder_destination + '\\' + priority[k]
                 if not os.path.exists(path):
                     os.mkdir(path)
                 for i in range(0, len(result)):
@@ -112,6 +112,7 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
 
             for file in os.scandir(tmpCropDir):
                 os.remove(file.path)
+            os.rmdir(tmpCropDir)
 
     def open_Folder(self):
         path = "C:/Users/{}/Pictures".format(os.getlogin())
