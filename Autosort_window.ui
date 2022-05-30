@@ -39,32 +39,6 @@
     <string>각 캐릭터마다 진행결과 확인</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_2">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>230</y>
-     <width>96</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>이동</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_3">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>260</y>
-     <width>96</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>복사</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -227,6 +201,45 @@
      <width>311</width>
      <height>21</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>220</y>
+     <width>90</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>이동</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_2">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>260</y>
+     <width>90</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>복사</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>290</y>
+     <width>291</width>
+     <height>591</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string/>
    </property>
   </widget>
  </widget>

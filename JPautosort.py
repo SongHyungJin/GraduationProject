@@ -3,18 +3,20 @@
 
 import os
 import sys
+import tkinter
 from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
-from predict_module import do_predict
+#from predict_module import do_predict
 from cutNresize import cutNresize
 import shutil
 import cv2
 from numpy import dot
 from numpy.linalg import norm
 import numpy as np
+import tkinter as tk
 
 form_categorize = uic.loadUiType("Autosort_window.ui")[0]
 
@@ -46,6 +48,11 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
             item = self.make_tree_item(d)
             self.item_base.addChild(item)
             self.item_base.sortChildren(0, Qt.SortOrder(0))
+        self.checkBox.setChecked(False)
+        self.checkBox.clicked.connect(self.check)
+        self.radioButton.setChecked(True)
+        self.radioButton.clicked.connect(self.clicked)
+        self.radioButton_2.clicked.connect(self.clicked)
         self.buttonDown.clicked.connect(self.move_item)
         self.buttonUP.clicked.connect(self.move_item)
         self.treeWidget.header().setVisible(False)
@@ -127,6 +134,17 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         if folder:
             self.DestPath.setText(folder)
             self.folder_destination = folder
+
+    def clicked(self):
+        if self.radioButton.isChecked() == True:
+            QMessageBox.about(self, 'about title', 'about content')
+        else:
+            QMessageBox.about(self, 'about title1', 'about content1')
+
+    def check(self):
+        if self.checkBox.isChecked() == True:
+            pass
+
 
 
 if __name__ == '__main__':
