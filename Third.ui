@@ -186,6 +186,32 @@
     <string>현재 입력된 값 :</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>117</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>현재 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="LabelValueSlider">
+   <property name="geometry">
+    <rect>
+     <x>795</x>
+     <y>117</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

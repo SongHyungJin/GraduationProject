@@ -83,8 +83,9 @@ class LearningWindow(QDialog, QWidget, form_learning):
         else:
             QMessageBox.about(self, 'error', '경로와 이름 설정을 다시 한 번 확인해주세요.')
 
-    def change_slider_value(self):
-
+    def change_slider_value(self, value):
+        self.learning_level = value
+        self.LabelValueSlider.setText(str(value))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
