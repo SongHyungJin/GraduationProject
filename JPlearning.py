@@ -75,7 +75,7 @@ class LearningWindow(QDialog, QWidget, form_learning):
             model_path = self.folder_destination + '/' + self.chara_name
             if not os.path.exists(model_path):
                 os.mkdir(model_path)
-            accuracy_rate = train_module(tmpCropDir, 1, model_path)
+            accuracy_rate = train_module(tmpCropDir, self.learning_level, model_path)
             f = open(model_path + '/' + self.chara_name + '.txt', 'w')
             f.close()
             QMessageBox.about(self, '학습 완료', '학습된 데이터의 학습 셋에 대한 정확도: ' + str(
