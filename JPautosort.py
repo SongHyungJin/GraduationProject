@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
-#from predict_module import do_predict
+from predict_module import do_predict
 from cutNresize import cutNresize
 import shutil
 import cv2
@@ -61,6 +61,8 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
 
         self.BtnFolderSrc.clicked.connect(self.open_Folder)     # 폴더 열기
         self.BtnFolderDest.clicked.connect(self.set_Folder)     # 결과 폴더 지정
+        self.moveORcopy = 0
+        self.midCheck = 0
 
 
     def initUI(self):
@@ -112,8 +114,12 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
                     os.mkdir(path)
                 for i in range(0, len(result)):
                     if os.path.isfile(result[i]):
-                        shutil.move(result[i], path)
-                QMessageBox.about(self, '중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
+                        if self.moveORcopy == 1:
+                            shutil.move(result[i], path)
+                        else:
+                            shutil.copy2(result[i], path)
+                if self.midCheck == 1:
+                    QMessageBox.about(self, '중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
 
             QMessageBox.about(self, '분류 완료', '분류가 전부 완료되었습니다.')
 
@@ -137,13 +143,15 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
 
     def clicked(self):
         if self.radioButton.isChecked() == True:
-            QMessageBox.about(self, 'about title', 'about content')
+            self.moveORcopy = 1
         else:
-            QMessageBox.about(self, 'about title1', 'about content1')
+            self.moveORcopy = 0
 
     def check(self):
         if self.checkBox.isChecked() == True:
-            pass
+            self.midCheck = 1
+        else:
+            self.midCheck = 0
 
 
 
