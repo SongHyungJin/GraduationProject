@@ -2,7 +2,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy as np
 from keras import models
-from keras.preprocessing.image import image
+from keras.preprocessing.image import image_utils
 
 
 def do_predict(model_path, imagePath_list):
@@ -12,8 +12,8 @@ def do_predict(model_path, imagePath_list):
 
     for i in range(0, len(imagePath_list[0])):
         if os.path.isfile(imagePath_list[0][i]):
-            img_data = image.load_img(imagePath_list[1][i], target_size=(224, 224))
-            img_array = image.img_to_array(img_data)
+            img_data = image_utils.load_img(imagePath_list[1][i], target_size=(224, 224))
+            img_array = image_utils.img_to_array(img_data)
             img_array = np.expand_dims(img_array, axis=0)
             img_array /= 255.
             if np.argmax(model.predict(img_array)) == 0:

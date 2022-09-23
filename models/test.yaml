@@ -1,0 +1,7 @@
+train: /content/drive/MyDrive/Colab Notebooks/yolov5-master/data/images/train  # train images (relative to 'path') 118287 images
+val: /content/drive/MyDrive/Colab Notebooks/yolov5-master/data/images/valid  # val images (relative to 'path') 5000 images
+test: /content/drive/MyDrive/Colab Notebooks/yolov5-master/data/images/test  #
+
+# Classes
+nc: 3  # number of classes
+names: ['head', 'opened eye', 'closed eye']  # class names
