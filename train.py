@@ -5,7 +5,6 @@ import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 import keras
 from ResNet_base import ResNet
-import logging
 import absl.logging
 
 size_of_batch = 3

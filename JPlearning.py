@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
-from cutNresize import cutNresize
 from train import train_module
 from detect2 import detectNcut
 
@@ -28,7 +27,6 @@ class ThreadLearn(QThread):
         if os.path.exists(self.folder_source) and os.path.exists(self.folder_destination) and self.chara_name != "":
             img_path = self.folder_source
             tmpCropDir = self.folder_source + '/' + 'tmpCrop'
-            # cutNresize(img_path, tmpCropDir)
             detectNcut(img_path, tmpCropDir)
             char_dir = tmpCropDir + '/' + '0'
             other_dir = tmpCropDir + '/' + '1'

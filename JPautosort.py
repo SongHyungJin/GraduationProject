@@ -25,6 +25,7 @@ form_categorize = uic.loadUiType(BASE_DIR + '/' + "Autosort_window.ui")[0]
 
 class ThreadSort(QThread):
     user_signal = pyqtSignal(str, str)
+    # progress_signal = pyqtSignal(int)
 
     def __init__(self, parent, userList, dst, src, mORc, mchk):
         super().__init__(parent)
@@ -36,17 +37,16 @@ class ThreadSort(QThread):
         self.midCheck = mchk
 
     def run(self):
+        # self.progress_signal.emit(0)
         priority = []
         for i in range(0, self.item_userList.childCount()):
             priority.append(self.item_userList.child(i).text(0))
 
         if len(priority) == 0:
             self.user_signal.emit("error", "분류 대상 목록이 비어있습니다.")
-            # QMessageBox.about(self, "error", "분류 대상 목록이 비어있습니다.")
         else:
             tmpCropDir = self.folder_destination + '/' + 'tmpCrop'
             img_path = self.folder_source
-            # crop_list = cutNresize(img_path, tmpCropDir)
             crop_list = detectNcut(img_path, tmpCropDir)
             modelDir_list = []
             for k in range(0, len(priority)):
@@ -69,10 +69,8 @@ class ThreadSort(QThread):
                             shutil.copy2(result[i], path)
                 if self.midCheck == 1:
                     self.user_signal.emit('중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
-                    # QMessageBox.about(self, '중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
 
             self.user_signal.emit('분류 완료', '분류가 전부 완료되었습니다.')
-            # QMessageBox.about(self, '분류 완료', '분류가 전부 완료되었습니다.')
 
             for file in os.scandir(tmpCropDir + '/head'):   # 나중에 폴더구조 정리하고 수정할것
                 os.remove(file.path)
@@ -91,7 +89,8 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.folder_destination = ""    # 이미지 옮길 폴더
 
         modelName_list = []
-        for dirpath, dirname, filenames in os.walk('model'):
+        os.chdir(os.path.dirname(os.path.abspath(sys.executable)))
+        for dirpath, dirname, filenames in os.walk('./model'):
             for file in filenames:
                 if file.endswith('.txt'):
                     modelName_list.append(Path(file).stem)
@@ -117,8 +116,10 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.buttonUP.clicked.connect(self.move_item)
         self.treeWidget.header().setVisible(False)
         self.treeWidget_2.header().setVisible(False)
+        self.item_base.setExpanded(True)
+        self.item_userList.setExpanded(True)
+        # self.progressBar.setValue(0)
         self.buttonOK.clicked.connect(self.sort_start)
-
         self.BtnFolderSrc.clicked.connect(self.open_Folder)     # 폴더 열기
         self.BtnFolderDest.clicked.connect(self.set_Folder)     # 결과 폴더 지정
         self.moveORcopy = 1
@@ -129,11 +130,17 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         Thread1 = ThreadSort(self, userList=self.item_userList, dst=self.folder_destination,
                              src=self.folder_source, mORc=self.moveORcopy, mchk=self.midCheck)
         Thread1.user_signal.connect(self.slot_do)
+        # Thread1.progress_signal.connect(self.progressCount)
         Thread1.start()
 
     def slot_do(self, title, message):
         QMessageBox.about(self, title, message)
         self.buttonOK.setEnabled(True)
+
+    '''
+    def progressCount(self, num):
+        self.progressBar.setValue(num)
+    '''
 
     def initUI(self):
         self.setupUi(self)

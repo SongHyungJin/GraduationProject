@@ -7,8 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5 import uic
 import cv2
 
-
-form_categorize = uic.loadUiType("Check_Autosort.ui")[0]
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+form_categorize = uic.loadUiType(BASE_DIR + '/' + "Check_Autosort.ui")[0]
 
 class CheckAutosortWindow(QDialog, QWidget, form_categorize):
 

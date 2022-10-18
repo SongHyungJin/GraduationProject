@@ -24,7 +24,7 @@ from utils.torch_utils import time_sync
 @torch.no_grad()
 def detectNcut(src, dst):
     file_list = [[], []]
-    weights = [str('models/best.pt')]  # model.pt path(s)
+    weights = [str('models/best5l.pt')]  # model.pt path(s)
     data = str('models/test.yaml')  # dataset.yaml path
     imgsz = (640, 640)  # inference size (height, width)
     conf_thres = 0.25  # confidence threshold
@@ -117,5 +117,5 @@ def detectNcut(src, dst):
     return file_list
 
 
-# detectNcut('C:/Users/kjma8y/Downloads/학습용/mayuu', 'C:/Users/kjma8y/Downloads/학습용/result')
+# detectNcut('C:/Users/kjma8y/Downloads/과제/학습용/chara/mayu_new', 'C:/Users/kjma8y/Downloads/과제/학습용/chara/mayu_new')
 

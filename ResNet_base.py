@@ -1,9 +1,7 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-import numpy as np
-import tensorflow as tf
 import keras
-from keras import datasets, layers, models
+from keras import layers
 
 
 class IdentityBlock(keras.models.Model):

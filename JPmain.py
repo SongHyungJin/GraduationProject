@@ -1,4 +1,12 @@
 import sys
+import os
+
+try:
+    os.chdir(sys._MEIPASS)
+    print(sys._MEIPASS)
+except:
+    os.chdir(os.getcwd())
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -6,9 +14,9 @@ from PyQt5 import uic
 from JPautosort import AutosortWindow
 from JPfilter import FilterWindow
 from JPlearning import LearningWindow
-from JPtest import TestWindow
 
-form_main = uic.loadUiType("Main.ui")[0]
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+form_main = uic.loadUiType(BASE_DIR +  '/' +"Main.ui")[0]
 
 class MainWindow(QMainWindow, QWidget, form_main):
     def __init__(self):
@@ -21,7 +29,6 @@ class MainWindow(QMainWindow, QWidget, form_main):
         self.pushButton_1.clicked.connect(self.button_1)
         self.pushButton_2.clicked.connect(self.button_2)
         self.pushButton_3.clicked.connect(self.button_3)
-        self.pushButton_4.clicked.connect(self.button_4)
 
     def button_1(self):
         self.hide()
@@ -41,11 +48,6 @@ class MainWindow(QMainWindow, QWidget, form_main):
         self.subwin3.exec_()
         self.show()
 
-    def button_4(self):
-        self.hide()
-        self.subwin4 = TestWindow()
-        self.subwin4.exec_()
-        self.show()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

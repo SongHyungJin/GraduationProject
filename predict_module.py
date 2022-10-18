@@ -3,7 +3,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy as np
 from keras import models
 from keras.preprocessing.image import image_utils
-
+import tensorflow.python.platform.tf_logging
 
 def do_predict(model_path, imagePath_list):
     list_output = []
