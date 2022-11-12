@@ -47,28 +47,47 @@ class ThreadSort(QThread):
         else:
             tmpCropDir = self.folder_destination + '/' + 'tmpCrop'
             img_path = self.folder_source
-            crop_list = detectNcut(img_path, tmpCropDir)
             modelDir_list = []
+            detectType = 1
             for k in range(0, len(priority)):
                 for dirpath, dirname, filename in os.walk('model'):
                     if priority[k] + ".txt" in filename:
                         modelDir_list.append(dirpath)
+            crop_list = detectNcut(img_path, tmpCropDir, detectType)
 
             for k in range(0, len(modelDir_list)):
-                result = do_predict(modelDir_list[k], crop_list)
-                result = set(result)
-                result = list(result)
-                path = self.folder_destination + '\\' + priority[k]
-                if not os.path.exists(path):
-                    os.mkdir(path)
-                for i in range(0, len(result)):
-                    if os.path.isfile(result[i]):
-                        if self.moveORcopy == 1:
-                            shutil.move(result[i], path)
-                        else:
-                            shutil.copy2(result[i], path)
-                if self.midCheck == 1:
-                    self.user_signal.emit('중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
+                f = open(modelDir_list[k] + '\\' + priority[k] + ".txt", 'r')
+                detectType = int(f.readline())
+                f.close()
+                if detectType == 1:
+                    result = do_predict(modelDir_list[k], crop_list)
+                    result = set(result)
+                    result = list(result)
+                    path = self.folder_destination + '\\' + priority[k]
+                    if not os.path.exists(path):
+                        os.mkdir(path)
+                    for i in range(0, len(result)):
+                        if os.path.isfile(result[i]):
+                            if self.moveORcopy == 1:
+                                shutil.move(result[i], path)
+                            else:
+                                shutil.copy2(result[i], path)
+                    if self.midCheck == 1:
+                        self.user_signal.emit('중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
+                else:
+                    path = self.folder_destination + '\\' + priority[k]
+                    result = detectNcut(img_path, path, detectType,
+                                        modelDir_list[k] + '\\' + 'best.pt', modelDir_list[k] + '\\' + 'test.yaml')
+                    if not os.path.exists(path):
+                        os.mkdir(path)
+                    for i in range(0, len(result)):
+                        if os.path.isfile(result[i]):
+                            if self.moveORcopy == 1:
+                                shutil.move(result[i], path)
+                            else:
+                                shutil.copy2(result[i], path)
+                    if self.midCheck == 1:
+                        self.user_signal.emit('중간 확인', str(priority[k]) + '의 분류가 완료되었습니다. 분류된 이미지를 확인하십시오.')
 
             self.user_signal.emit('분류 완료', '분류가 전부 완료되었습니다.')
 
@@ -89,7 +108,7 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
         self.folder_destination = ""    # 이미지 옮길 폴더
 
         modelName_list = []
-        os.chdir(os.path.dirname(os.path.abspath(sys.executable)))
+        # os.chdir(os.path.dirname(os.path.abspath(sys.executable)))
         for dirpath, dirname, filenames in os.walk('./model'):
             for file in filenames:
                 if file.endswith('.txt'):
@@ -188,7 +207,6 @@ class AutosortWindow(QDialog, QWidget, form_categorize):
             self.midCheck = 1
         else:
             self.midCheck = 0
-
 
 
 if __name__ == '__main__':

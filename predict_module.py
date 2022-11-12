@@ -5,6 +5,7 @@ from keras import models
 from keras.preprocessing.image import image_utils
 import tensorflow.python.platform.tf_logging
 
+
 def do_predict(model_path, imagePath_list):
     list_output = []
     model = models.load_model(model_path)

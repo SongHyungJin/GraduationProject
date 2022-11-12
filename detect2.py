@@ -22,10 +22,11 @@ from utils.torch_utils import time_sync
 
 
 @torch.no_grad()
-def detectNcut(src, dst):
+def detectNcut(src, dst, detectType, weights=str('models/best5l.pt'), data=str('models/test.yaml')):
     file_list = [[], []]
-    weights = [str('models/best5l.pt')]  # model.pt path(s)
-    data = str('models/test.yaml')  # dataset.yaml path
+    file_list2 = []
+    # weights = [str('models/best5l.pt')]  # model.pt path(s)
+    # data = str('models/test.yaml')  # dataset.yaml path
     imgsz = (640, 640)  # inference size (height, width)
     conf_thres = 0.25  # confidence threshold
     iou_thres = 0.45  # NMS IOU threshold
@@ -107,14 +108,21 @@ def detectNcut(src, dst):
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     c = int(cls)
-                    if c == 0:  # head일때만 저장 나중에 yolo모델 수정하고 여기도 갱신할것
+                    if c == 0 and detectType == 1:  # head일때만 저장 나중에 yolo모델 수정하고 여기도 갱신할것 물건 detect일때는 굳이 저장하지 않게 수정
                         save_one_box(xyxy, imc, file=Path(dst + '/' + str(names[c]) + '/' + str(p.stem) + '.jpg'),
                                      BGR=True, square=True)
                         file_list[0].append(os.path.join(path))
                         file_list[1].append(os.path.join(dst + '/' + str(names[c]) + '/' + str(p.stem) + '.jpg'))
+                    elif detectType == 0:
+                        file_list2.append(os.path.join(path))
+
         LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
 
-    return file_list
+    if detectType == 1:
+        return file_list
+    else:
+        return file_list2
+
 
 
 # detectNcut('C:/Users/kjma8y/Downloads/과제/학습용/chara/mayu_new', 'C:/Users/kjma8y/Downloads/과제/학습용/chara/mayu_new')
