@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>344</width>
-    <height>260</height>
+    <width>391</width>
+    <height>122</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="pushButton_1">
     <property name="geometry">
      <rect>
-      <x>53</x>
-      <y>49</y>
+      <x>30</x>
+      <y>40</y>
       <width>90</width>
       <height>40</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>203</x>
-      <y>49</y>
+      <x>270</x>
+      <y>40</y>
       <width>90</width>
       <height>40</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>53</x>
-      <y>139</y>
+      <x>150</x>
+      <y>40</y>
       <width>90</width>
       <height>40</height>
      </rect>
@@ -53,27 +53,14 @@
      <string>추가 학습</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>203</x>
-      <y>139</y>
-      <width>90</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>테스트</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>344</width>
-     <height>26</height>
+     <width>391</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>

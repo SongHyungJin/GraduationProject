@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>849</width>
-    <height>558</height>
+    <width>579</width>
+    <height>230</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>60</y>
-     <width>481</width>
+     <y>30</y>
+     <width>391</width>
      <height>31</height>
     </rect>
    </property>
@@ -26,8 +26,8 @@
   <widget class="QPushButton" name="BtnOpenFolder">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>60</y>
+     <x>440</x>
+     <y>30</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -39,8 +39,8 @@
   <widget class="QRadioButton" name="OpResize_0">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>90</y>
+     <x>40</x>
+     <y>120</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -55,8 +55,8 @@
   <widget class="QRadioButton" name="OpResize_1">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>130</y>
+     <x>40</x>
+     <y>150</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -71,8 +71,8 @@
   <widget class="QRadioButton" name="OpResize_2">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>170</y>
+     <x>40</x>
+     <y>180</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -87,73 +87,34 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>50</y>
-     <width>161</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>이미지 축소 수준(가칭)</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="BtnSelectAll">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>460</y>
-     <width>140</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>전체 선택/해제</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="BtnExclude">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>460</y>
-     <width>140</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>선택 이미지 제외</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
      <x>40</x>
-     <y>120</y>
+     <y>90</y>
      <width>161</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>중복 확인 결과...</string>
+    <string>이미지 축소 수준</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>250</y>
+     <x>220</x>
+     <y>90</y>
      <width>161</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>중복 판단 일치율(가칭)</string>
+    <string>중복 판단 일치율</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="OpRate_1">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>350</y>
+     <x>220</x>
+     <y>150</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -168,8 +129,8 @@
   <widget class="QRadioButton" name="OpRate_0">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>310</y>
+     <x>220</x>
+     <y>120</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -184,8 +145,8 @@
   <widget class="QRadioButton" name="OpRate_2">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>390</y>
+     <x>220</x>
+     <y>180</y>
      <width>108</width>
      <height>19</height>
     </rect>
@@ -197,51 +158,13 @@
     <string notr="true">buttonGroup_2</string>
    </attribute>
   </widget>
-  <widget class="QLabel" name="label_pic">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>150</y>
-     <width>611</width>
-     <height>271</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::StrongFocus</enum>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
-   </property>
-   <property name="text">
-    <string>폴더 내의 모든 사진 표시</string>
-   </property>
-   <property name="openExternalLinks">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>510</y>
-     <width>391</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="BtnRun">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>470</y>
-     <width>93</width>
-     <height>28</height>
+     <x>440</x>
+     <y>170</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -252,7 +175,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
